@@ -22,6 +22,7 @@ const navItems = [
   { icon: Briefcase, label: "Companies", path: "/companies" },
   { icon: ClipboardList, label: "Mock Tests", path: "/mock-tests" },
   { icon: Bot, label: "Interviews", path: "/interviews" },
+  { icon: GraduationCap, label: "Placements", path: "/placements" },
   { icon: Sparkles, label: "GOATED Tools", path: "/goated-tools" },
   { icon: Settings, label: "Settings", path: "/settings" },
 ];

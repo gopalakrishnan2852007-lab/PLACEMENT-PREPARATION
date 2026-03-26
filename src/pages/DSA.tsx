@@ -89,7 +89,19 @@ export default function DSA() {
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        <AnimatePresence mode="popLayout">
+        {filteredProblems.length === 0 ? (
+          <Card className="p-12 text-center border-dashed border-2 border-zinc-200 bg-zinc-50 flex flex-col items-center justify-center mt-4">
+            <div className="w-16 h-16 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4">
+              <Code2 size={32} />
+            </div>
+            <h3 className="text-xl font-bold text-text-primary mb-2">No problems tracked yet</h3>
+            <p className="text-sm text-text-secondary max-w-sm mx-auto mb-6">Start tracking your LeetCode and GeeksForGeeks progress to unlock insights and stay consistent.</p>
+            <Button onClick={() => setIsAdding(true)} className="gap-2">
+              <Plus className="h-4 w-4" /> Add First Problem
+            </Button>
+          </Card>
+        ) : (
+          <AnimatePresence mode="popLayout">
           {filteredProblems.map((problem) => (
             <motion.div
               key={problem.id}
@@ -166,6 +178,7 @@ export default function DSA() {
             </motion.div>
           ))}
         </AnimatePresence>
+        )}
       </div>
 
       {isAdding && (

@@ -10,6 +10,7 @@ import ResumeAnalyzer from './pages/ResumeAnalyzer';
 import JDPrep from './pages/JDPrep';
 import Flashcards from './pages/Flashcards';
 import Analytics from './pages/Analytics';
+import Placements from './pages/Placements';
 import { Layout } from './components/Layout';
 import { useStore } from './store/useStore';
 import Interviews from './pages/Interviews';
@@ -69,6 +70,7 @@ export default function App() {
           <Route path="/interviews" element={<AIInterview />} />
           <Route path="/goated-tools" element={<GoatedTools />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/placements" element={<Placements />} />
         </Route>
 
         <Route path="*" element={<Navigate to={user ? "/" : "/login"} replace />} />
