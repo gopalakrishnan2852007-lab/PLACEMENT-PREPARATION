@@ -19,6 +19,31 @@
   body {
     @apply bg-page-bg text-text-primary font-sans antialiased;
   }
+
+  .dark {
+    /* Main App Colors */
+    --color-page-bg: #09090b; /* zinc-950 */
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #a1a1aa;
+    --color-sidebar: #020617; /* slate-950 */
+    --color-sidebar-active: #1e1b4b; /* indigo-950 */
+
+    /* Tailwind Palette Overrides (Auto Dark Mode Engine) */
+    --color-white: #18181b; /* zinc-900 */
+    --color-black: #fafafa; /* zinc-50 */
+    --color-zinc-50: #27272a; /* zinc-800 */
+    --color-zinc-100: #3f3f46; /* zinc-700 */
+    --color-zinc-200: #52525b; /* zinc-600 */
+    --color-zinc-300: #71717a; /* zinc-500 */
+    --color-zinc-400: #a1a1aa; /* zinc-400 */
+    --color-zinc-500: #d4d4d8; /* zinc-300 */
+    --color-zinc-600: #e4e4e7; /* zinc-200 */
+    --color-zinc-700: #f4f4f5; /* zinc-100 */
+    --color-zinc-800: #fafafa; /* zinc-50 */
+    /* Wait, zinc 900 and 950 are used extensively for pure dark headers in light mode like the Attempt UI header, better leave 900/950 or invert them. Let's invert them to very light! */
+    --color-zinc-900: #ffffff;
+    --color-zinc-950: #ffffff;
+  }
 }
 
 @layer components {

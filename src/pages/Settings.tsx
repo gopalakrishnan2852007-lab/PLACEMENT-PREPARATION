@@ -7,6 +7,7 @@ import { User, Mail, Shield, Bell, Moon, Sun, Save, Loader2, LogOut } from 'luci
 import { signOut } from '@/src/firebase';
 
 export default function Settings() {
+  const { theme, setTheme } = useStore();
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [isUpdating, setIsUpdating] = useState(false);
   const [message, setMessage] = useState('');
@@ -116,17 +117,23 @@ export default function Settings() {
 
           <Card className="p-6 md:p-8">
             <h3 className="text-xl font-bold text-text-primary mb-6">Preferences</h3>
-            <div className="flex items-center justify-between p-4 bg-zinc-50 rounded-xl border border-zinc-100">
+            <div className="flex items-center justify-between p-4 bg-zinc-50 rounded-xl border border-zinc-100 transition-colors">
               <div className="flex gap-4 items-center">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                  <Moon className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 transition-colors">
+                  {theme === 'dark' ? <Moon className="w-5 h-5 fill-current" /> : <Sun className="w-5 h-5" />}
                 </div>
                 <div>
                   <p className="font-bold text-text-primary">Dark Mode</p>
-                  <p className="text-sm text-text-secondary">Switch to dark theme</p>
+                  <p className="text-sm text-text-secondary">Switch to {theme === 'dark' ? 'light' : 'dark'} theme</p>
                 </div>
               </div>
-              <Button variant="outline" disabled>Coming Soon</Button>
+              <Button 
+                variant={theme === 'dark' ? 'primary' : 'outline'} 
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="w-24 font-bold"
+              >
+                {theme === 'dark' ? 'Enabled' : 'Enable'}
+              </Button>
             </div>
           </Card>
         </div>

@@ -20,8 +20,17 @@ import GoatedTools from './pages/GoatedTools';
 import Settings from './pages/Settings';
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
+  const { theme, syncFromBackend } = useStore();
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
