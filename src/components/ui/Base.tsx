@@ -10,9 +10,9 @@ const Button = React.forwardRef<
 >(({ className, variant = "primary", size = "md", ...props }, ref) => {
   const variants = {
     primary: "bg-primary-accent text-white hover:opacity-90 shadow-lg shadow-primary-accent/20",
-    secondary: "bg-zinc-100 text-text-primary hover:bg-zinc-200 border border-zinc-200/50",
-    outline: "border border-zinc-200 text-text-secondary hover:bg-zinc-50",
-    ghost: "text-text-secondary hover:text-text-primary hover:bg-zinc-100",
+    secondary: "bg-zinc-100 dark:bg-zinc-800 text-text-primary hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/50 dark:border-zinc-700/50",
+    outline: "border border-zinc-200 dark:border-zinc-700 text-text-secondary hover:bg-zinc-50 dark:hover:bg-zinc-800",
+    ghost: "text-text-secondary hover:text-text-primary hover:bg-zinc-100 dark:hover:bg-zinc-800",
     danger: "bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20",
   };
 
@@ -41,7 +41,7 @@ Button.displayName = "Button";
 const Card = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "bg-white rounded-[16px] border border-zinc-100 text-text-primary card-shadow",
+      "bg-white dark:bg-[#18181b] rounded-[16px] border border-zinc-100 dark:border-zinc-800 text-text-primary card-shadow",
       className
     )}
     {...props}
@@ -56,7 +56,7 @@ const Input = React.forwardRef<
     <input
       type={type}
       className={cn(
-        "flex h-12 w-full rounded-2xl border border-zinc-200 bg-white px-4 py-2 text-sm text-text-primary placeholder:text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-accent/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all",
+        "flex h-12 w-full rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#18181b] px-4 py-2 text-sm text-text-primary placeholder:text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-accent/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all",
         className
       )}
       ref={ref}

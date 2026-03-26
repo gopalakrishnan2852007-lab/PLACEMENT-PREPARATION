@@ -51,10 +51,10 @@ export default function Interviews() {
   };
 
   return (
-    <div className="bg-white text-zinc-900 min-h-[calc(100vh-6rem)] rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-zinc-200 space-y-8 relative overflow-hidden">
+    <div className="bg-white dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 min-h-[calc(100vh-6rem)] rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-zinc-200 dark:border-zinc-800 space-y-8 relative overflow-hidden">
       <header className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-zinc-900">Interview Pipeline</h2>
+          <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Interview Pipeline</h2>
           <p className="text-zinc-500 mt-1">Manage your applications and prepare for HR rounds.</p>
         </div>
         <Button onClick={() => setIsAdding(true)} className="gap-2">
@@ -63,7 +63,7 @@ export default function Interviews() {
         </Button>
       </header>
 
-      <div className="flex items-center gap-1 p-1 bg-white border border-zinc-200 rounded-xl w-fit">
+      <div className="flex items-center gap-1 p-1 bg-white border border-zinc-200 dark:bg-[#18181b] dark:border-zinc-800 rounded-xl w-fit">
         {['Pipeline', 'HR Bank', 'History'].map((tab) => (
           <button
             key={tab}
@@ -83,11 +83,11 @@ export default function Interviews() {
       {activeTab === 'Pipeline' && (
         <>
           {companies.length === 0 ? (
-            <Card className="p-12 text-center border-dashed border-2 border-zinc-200 bg-zinc-50 flex flex-col items-center justify-center mt-8">
+            <Card className="p-12 text-center border-dashed border-2 border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex flex-col items-center justify-center mt-8">
               <div className="w-16 h-16 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center mb-4">
                 <Briefcase size={32} />
               </div>
-              <h3 className="text-xl font-bold text-zinc-900 mb-2">No active applications</h3>
+              <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">No active applications</h3>
               <p className="text-sm text-zinc-500 max-w-sm mx-auto mb-6">Track your job applications, prepare for HR rounds, and manage your placement pipeline.</p>
               <Button onClick={() => setIsAdding(true)} className="gap-2 bg-zinc-900 hover:bg-zinc-800 text-white">
                 <Plus className="h-4 w-4" /> Add First Application
@@ -100,9 +100,9 @@ export default function Interviews() {
                   <div className="flex items-center justify-between px-2">
                     <div className="flex items-center gap-2">
                       <div className={cn("h-2 w-2 rounded-full", column.color)} />
-                      <h3 className="text-sm font-bold text-zinc-700">{column.label}</h3>
+                      <h3 className="text-sm font-bold text-zinc-700 dark:text-zinc-300">{column.label}</h3>
                     </div>
-                    <span className="text-[10px] font-bold text-zinc-600 bg-white px-1.5 py-0.5 rounded border border-zinc-200">
+                    <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700">
                       {companies.filter(c => c.status === column.id).length}
                     </span>
                   </div>
@@ -127,7 +127,7 @@ export default function Interviews() {
                               <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-500/20 to-transparent blur-xl" />
                             )}
                             <div className="flex items-center justify-between mb-3 relative">
-                              <h4 className="text-sm font-bold text-zinc-900 group-hover:text-orange-500 transition-colors">
+                              <h4 className="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-orange-500 transition-colors">
                                 {company.name}
                               </h4>
                               <Button variant="ghost" size="icon" className="h-6 w-6 text-zinc-600">
@@ -149,7 +149,7 @@ export default function Interviews() {
                               )}
                             </div>
 
-                            <div className="flex items-center justify-between pt-3 border-t border-zinc-200">
+                            <div className="flex items-center justify-between pt-3 border-t border-zinc-200 dark:border-zinc-800/50">
                               <span className={cn(
                                 "text-[8px] font-bold px-1.5 py-0.5 rounded uppercase",
                                 company.priority === 'High' ? "bg-red-500/10 text-red-500" :
@@ -184,7 +184,7 @@ export default function Interviews() {
       {activeTab === 'HR Bank' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="p-6">
-            <h3 className="text-lg font-bold text-zinc-900 mb-6 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
               <MessageSquare className="h-5 w-5 text-orange-500" />
               Common HR Questions
             </h3>
@@ -196,8 +196,8 @@ export default function Interviews() {
                 "Where do you see yourself in 5 years?",
                 "Tell me about a time you faced a challenge."
               ].map((q, i) => (
-                <div key={i} className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 hover:border-zinc-300 transition-colors cursor-pointer">
-                  <p className="text-sm font-medium text-zinc-800">{q}</p>
+                <div key={i} className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 transition-colors cursor-pointer">
+                  <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{q}</p>
                   <div className="flex items-center gap-2 mt-2">
                     <span className="text-[10px] font-bold text-green-500 bg-green-500/10 px-1.5 py-0.5 rounded">Answer Prepared</span>
                   </div>
@@ -206,14 +206,14 @@ export default function Interviews() {
             </div>
           </Card>
           <Card className="p-6">
-            <h3 className="text-lg font-bold text-zinc-900 mb-6 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
               <History className="h-5 w-5 text-orange-500" />
               Interview Experiences
             </h3>
             <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200">
+              <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-sm font-bold text-zinc-900">Amazon - SDE Intern</h4>
+                  <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Amazon - SDE Intern</h4>
                   <span className="text-[10px] font-bold text-zinc-500 uppercase">2 days ago</span>
                 </div>
                 <p className="text-xs text-zinc-500 line-clamp-2 mb-3">
@@ -234,9 +234,9 @@ export default function Interviews() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-lg bg-white border border-zinc-200 rounded-2xl p-6 shadow-2xl"
+            className="w-full max-w-lg bg-white dark:bg-[#18181b] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-2xl"
           >
-            <h3 className="text-xl font-bold text-zinc-900 mb-6">Add New Application</h3>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">Add New Application</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -255,7 +255,7 @@ export default function Interviews() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">Priority</label>
-                  <select name="priority" className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                  <select name="priority" className="w-full bg-zinc-50 dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-orange-500">
                     {['Low', 'Medium', 'High'].map(p => <option key={p} value={p}>{p}</option>)}
                   </select>
                 </div>
@@ -263,7 +263,7 @@ export default function Interviews() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">Current Status</label>
-                  <select name="status" className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                  <select name="status" className="w-full bg-zinc-50 dark:bg-[#09090b] border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-orange-500">
                     {columns.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
                   </select>
                 </div>

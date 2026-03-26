@@ -43,19 +43,19 @@ export default function Settings() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="space-y-4">
-          <button className="w-full flex items-center gap-3 px-4 py-3 bg-zinc-50 text-primary-accent font-semibold rounded-xl border border-primary-accent/20">
+          <button className="w-full flex items-center gap-3 px-4 py-3 bg-zinc-50 dark:bg-zinc-800/50 text-primary-accent font-semibold rounded-xl border border-primary-accent/20">
             <User className="w-5 h-5" />
             Profile details
           </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-text-secondary hover:bg-zinc-50 font-medium rounded-xl transition-colors">
+          <button className="w-full flex items-center gap-3 px-4 py-3 text-text-secondary hover:bg-zinc-50 dark:hover:bg-zinc-800/50 font-medium rounded-xl transition-colors">
             <Shield className="w-5 h-5" />
             Security
           </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-text-secondary hover:bg-zinc-50 font-medium rounded-xl transition-colors">
+          <button className="w-full flex items-center gap-3 px-4 py-3 text-text-secondary hover:bg-zinc-50 dark:hover:bg-zinc-800/50 font-medium rounded-xl transition-colors">
             <Bell className="w-5 h-5" />
             Notifications
           </button>
-          <div className="pt-4 mt-4 border-t border-zinc-100 flex justify-center">
+          <div className="pt-4 mt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-center">
             <Button variant="outline" className="w-full text-red-500 border-red-200 hover:bg-red-50" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
@@ -117,7 +117,7 @@ export default function Settings() {
 
           <Card className="p-6 md:p-8">
             <h3 className="text-xl font-bold text-text-primary mb-6">Preferences</h3>
-            <div className="flex items-center justify-between p-4 bg-zinc-50 rounded-xl border border-zinc-100 transition-colors">
+            <div className="flex items-center justify-between p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800 transition-colors">
               <div className="flex gap-4 items-center">
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 transition-colors">
                   {theme === 'dark' ? <Moon className="w-5 h-5 fill-current" /> : <Sun className="w-5 h-5" />}

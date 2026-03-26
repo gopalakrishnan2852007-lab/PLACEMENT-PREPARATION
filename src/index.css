@@ -13,15 +13,6 @@
   --color-text-secondary: var(--dynamic-text-secondary, #7C83A0);
   --color-success-green: #22C55E;
   --color-warning-orange: #F97316;
-
-  /* Bind Tailwind base colors to CSS vars for programmatic Dark Mode */
-  --color-white: var(--dynamic-white, #ffffff);
-  --color-zinc-50: var(--dynamic-zinc-50, #fafafa);
-  --color-zinc-100: var(--dynamic-zinc-100, #f4f4f5);
-  --color-zinc-200: var(--dynamic-zinc-200, #e4e4e7);
-  --color-zinc-500: var(--dynamic-zinc-500, #71717a);
-  --color-zinc-800: var(--dynamic-zinc-800, #27272a);
-  --color-zinc-900: var(--dynamic-zinc-900, #18181b);
 }
 
 @layer base {
@@ -30,21 +21,11 @@
   }
 
   .dark {
-    /* Custom App Colors Inverted */
     --dynamic-page-bg: #09090b;
     --dynamic-text-primary: #f8fafc;
     --dynamic-text-secondary: #a1a1aa;
     --dynamic-sidebar: #020617;
     --dynamic-sidebar-active: #1e1b4b;
-
-    /* Base Tailwind Colors Inverted */
-    --dynamic-white: #18181b;     /* white -> dark gray */
-    --dynamic-zinc-50: #27272a;   /* light -> darker */
-    --dynamic-zinc-100: #3f3f46;  
-    --dynamic-zinc-200: #52525b;
-    --dynamic-zinc-500: #a1a1aa;  /* mid -> lighter */
-    --dynamic-zinc-800: #e4e4e7;  /* dark -> light */
-    --dynamic-zinc-900: #f8fafc;  /* dark -> pure light text */
   }
 }
 
