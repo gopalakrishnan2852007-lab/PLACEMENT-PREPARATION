@@ -5,14 +5,23 @@
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   
-  --color-sidebar: #2D3A8C;
-  --color-sidebar-active: #3D4EAA;
+  --color-sidebar: var(--dynamic-sidebar, #2D3A8C);
+  --color-sidebar-active: var(--dynamic-sidebar-active, #3D4EAA);
   --color-primary-accent: #4F63D2;
-  --color-page-bg: #F0F2FF;
-  --color-text-primary: #1A1D2E;
-  --color-text-secondary: #7C83A0;
+  --color-page-bg: var(--dynamic-page-bg, #F0F2FF);
+  --color-text-primary: var(--dynamic-text-primary, #1A1D2E);
+  --color-text-secondary: var(--dynamic-text-secondary, #7C83A0);
   --color-success-green: #22C55E;
   --color-warning-orange: #F97316;
+
+  /* Bind Tailwind base colors to CSS vars for programmatic Dark Mode */
+  --color-white: var(--dynamic-white, #ffffff);
+  --color-zinc-50: var(--dynamic-zinc-50, #fafafa);
+  --color-zinc-100: var(--dynamic-zinc-100, #f4f4f5);
+  --color-zinc-200: var(--dynamic-zinc-200, #e4e4e7);
+  --color-zinc-500: var(--dynamic-zinc-500, #71717a);
+  --color-zinc-800: var(--dynamic-zinc-800, #27272a);
+  --color-zinc-900: var(--dynamic-zinc-900, #18181b);
 }
 
 @layer base {
@@ -21,28 +30,21 @@
   }
 
   .dark {
-    /* Main App Colors */
-    --color-page-bg: #09090b; /* zinc-950 */
-    --color-text-primary: #f8fafc;
-    --color-text-secondary: #a1a1aa;
-    --color-sidebar: #020617; /* slate-950 */
-    --color-sidebar-active: #1e1b4b; /* indigo-950 */
+    /* Custom App Colors Inverted */
+    --dynamic-page-bg: #09090b;
+    --dynamic-text-primary: #f8fafc;
+    --dynamic-text-secondary: #a1a1aa;
+    --dynamic-sidebar: #020617;
+    --dynamic-sidebar-active: #1e1b4b;
 
-    /* Tailwind Palette Overrides (Auto Dark Mode Engine) */
-    --color-white: #18181b; /* zinc-900 */
-    --color-black: #fafafa; /* zinc-50 */
-    --color-zinc-50: #27272a; /* zinc-800 */
-    --color-zinc-100: #3f3f46; /* zinc-700 */
-    --color-zinc-200: #52525b; /* zinc-600 */
-    --color-zinc-300: #71717a; /* zinc-500 */
-    --color-zinc-400: #a1a1aa; /* zinc-400 */
-    --color-zinc-500: #d4d4d8; /* zinc-300 */
-    --color-zinc-600: #e4e4e7; /* zinc-200 */
-    --color-zinc-700: #f4f4f5; /* zinc-100 */
-    --color-zinc-800: #fafafa; /* zinc-50 */
-    /* Wait, zinc 900 and 950 are used extensively for pure dark headers in light mode like the Attempt UI header, better leave 900/950 or invert them. Let's invert them to very light! */
-    --color-zinc-900: #ffffff;
-    --color-zinc-950: #ffffff;
+    /* Base Tailwind Colors Inverted */
+    --dynamic-white: #18181b;     /* white -> dark gray */
+    --dynamic-zinc-50: #27272a;   /* light -> darker */
+    --dynamic-zinc-100: #3f3f46;  
+    --dynamic-zinc-200: #52525b;
+    --dynamic-zinc-500: #a1a1aa;  /* mid -> lighter */
+    --dynamic-zinc-800: #e4e4e7;  /* dark -> light */
+    --dynamic-zinc-900: #f8fafc;  /* dark -> pure light text */
   }
 }
 
