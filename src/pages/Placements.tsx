@@ -4,14 +4,10 @@ import {
   Trophy, 
   MapPin, 
   Briefcase, 
-  ExternalLink,
-  MessageSquare,
   Sparkles,
-  ArrowUpRight,
   Quote
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '@/src/lib/utils';
+import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 
 const PLACEMENTS_DATA = [
@@ -65,18 +61,18 @@ export default function Placements() {
   const navigate = useNavigate();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-7xl mx-auto py-8">
       <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <h2 className="flex items-center gap-3 text-3xl font-black text-white tracking-tight">
+          <h2 className="flex items-center gap-3 text-3xl font-black text-zinc-900 dark:text-white tracking-tight">
             Hall of Fame <Trophy className="text-yellow-500 h-8 w-8" />
           </h2>
-          <p className="text-zinc-400 mt-2 max-w-xl">
+          <p className="text-zinc-500 dark:text-zinc-400 mt-2 max-w-xl">
             Meet the students who cracked their dream companies using the Placement Preparation Tracker. Read their stories and learn their strategies.
           </p>
         </div>
-        <Button onClick={() => navigate('/companies')} className="shrink-0 gap-2 bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 border-none">
-          <Sparkles className="h-4 w-4" />
+        <Button onClick={() => navigate('/companies')} className="shrink-0 gap-2 bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 border-none text-white">
+          <Sparkles className="h-4 w-4 text-white" />
           Start Your Journey
         </Button>
       </header>
@@ -89,44 +85,44 @@ export default function Placements() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
           >
-            <Card className="h-full bg-zinc-900/40 border border-white/5 p-6 hover:border-blue-500/30 transition-all duration-300 group overflow-hidden relative">
+            <Card className="h-full bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-white/5 p-6 hover:border-blue-500/30 transition-all duration-300 group overflow-hidden relative">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-500" />
               
               <div className="flex items-start gap-5">
                 <img 
                   src={alum.image} 
                   alt={alum.name} 
-                  className="w-16 h-16 rounded-2xl object-cover ring-2 ring-white/10 group-hover:ring-blue-500/30 transition-all"
+                  className="w-16 h-16 rounded-2xl object-cover ring-2 ring-zinc-200 dark:ring-white/10 group-hover:ring-blue-500/30 transition-all"
                 />
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">{alum.name}</h3>
-                  <p className="text-sm font-medium text-emerald-400 flex items-center gap-1.5 mb-2">
+                  <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-1 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">{alum.name}</h3>
+                  <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 mb-2">
                     <Briefcase className="h-3.5 w-3.5" />
                     {alum.role}
                   </p>
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-400 font-medium">
-                    <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-zinc-500" /> {alum.company}</span>
-                    <span className="w-1 h-1 rounded-full bg-zinc-700" />
-                    <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-zinc-500" /> {alum.location}</span>
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+                    <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-zinc-400 dark:text-zinc-500" /> {alum.company}</span>
+                    <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+                    <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-zinc-400 dark:text-zinc-500" /> {alum.location}</span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 font-black text-sm border border-emerald-500/20">
+                  <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-black text-sm border border-emerald-500/20">
                     {alum.ctc}
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-white/5 relative">
-                <Quote className="absolute top-5 left-0 h-8 w-8 text-white/5" />
-                <p className="text-sm text-zinc-300 leading-relaxed indent-6 relative z-10 font-medium italic">
+              <div className="mt-6 pt-6 border-t border-zinc-200 dark:border-white/5 relative">
+                <Quote className="absolute top-5 left-0 h-8 w-8 text-zinc-200 dark:text-white/5" />
+                <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed indent-6 relative z-10 font-medium italic">
                   "{alum.testimonial}"
                 </p>
               </div>
 
               <div className="mt-6 flex flex-wrap gap-2">
                 {alum.tags.map((tag, j) => (
-                  <span key={j} className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-300 border border-blue-500/20 bg-blue-500/5 rounded-md">
+                  <span key={j} className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-300 border border-blue-500/20 bg-blue-500/10 dark:bg-blue-500/5 rounded-md">
                     {tag}
                   </span>
                 ))}

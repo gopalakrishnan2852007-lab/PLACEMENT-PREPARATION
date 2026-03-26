@@ -12,7 +12,8 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
+// Suppress error using any if Vite env is strictly typed but env typing is missing
+const ai = new GoogleGenAI({ apiKey: (import.meta as any).env.VITE_GEMINI_API_KEY || '' });
 
 export default function ResumeAnalyzer() {
   const [resumeText, setResumeText] = useState('');
@@ -98,8 +99,8 @@ export default function ResumeAnalyzer() {
   return (
     <div className="max-w-6xl mx-auto py-8 px-4">
       <div className="mb-12">
-        <h1 className="text-4xl font-black text-white mb-4 tracking-tight">Elite Resume Intelligence</h1>
-        <p className="text-blue-200/60 max-w-2xl text-lg">
+        <h1 className="text-4xl font-black text-zinc-900 dark:text-white mb-4 tracking-tight">Elite Resume Intelligence</h1>
+        <p className="text-zinc-500 dark:text-blue-200/60 max-w-2xl text-lg">
           Get brutally honest, recruiter-level critical feedback on your resume to maximize FAANG shortlisting chances.
         </p>
       </div>
@@ -107,45 +108,45 @@ export default function ResumeAnalyzer() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
         <div className="lg:col-span-5 space-y-6">
           
-          <Card className="p-6 bg-white/5 border-white/10 backdrop-blur-md">
-            <h2 className="text-white font-bold mb-4 flex items-center gap-2">
-              <Target size={18} className="text-purple-400" /> Target Parameters
+          <Card className="p-6 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 backdrop-blur-md">
+            <h2 className="text-zinc-900 dark:text-white font-bold mb-4 flex items-center gap-2">
+              <Target size={18} className="text-purple-500 dark:text-purple-400" /> Target Parameters
             </h2>
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-bold text-white/50 uppercase tracking-wider mb-2 block">Target Role (Required)</label>
+                <label className="text-xs font-bold text-zinc-400 dark:text-white/50 uppercase tracking-wider mb-2 block">Target Role (Required)</label>
                 <Input 
                   placeholder="e.g. Frontend Developer, Data Analyst..." 
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white"
+                  className="bg-white dark:bg-white/5 border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-white/50 uppercase tracking-wider mb-2 block">Target Company (Optional)</label>
+                <label className="text-xs font-bold text-zinc-400 dark:text-white/50 uppercase tracking-wider mb-2 block">Target Company (Optional)</label>
                 <div className="relative">
-                  <Building2 size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+                  <Building2 size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-white/40" />
                   <Input 
                     placeholder="e.g. Google, Amazon, Microsoft..." 
                     value={targetCompany}
                     onChange={(e) => setTargetCompany(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white pl-10"
+                    className="bg-white dark:bg-white/5 border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white pl-10 text-sm"
                   />
                 </div>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white/5 border-white/10 backdrop-blur-md">
+          <Card className="p-6 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 backdrop-blur-md">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-600/20 text-blue-500 dark:text-blue-400 flex items-center justify-center">
                 <FileText size={20} />
               </div>
-              <h2 className="text-white font-bold">Resume Content</h2>
+              <h2 className="text-zinc-900 dark:text-white font-bold">Resume Content</h2>
             </div>
             <textarea
               placeholder="Paste your raw resume text here (copy from PDF or Word)..."
-              className="w-full h-80 bg-white/5 border border-white/10 rounded-2xl p-4 text-white/90 text-sm focus:border-blue-500 outline-none transition-all resize-none placeholder:text-white/20"
+              className="w-full h-80 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl p-4 text-zinc-900 dark:text-white/90 text-sm focus:border-blue-500 outline-none transition-all resize-none placeholder:text-zinc-400 dark:placeholder:text-white/20"
               value={resumeText}
               onChange={(e) => setResumeText(e.target.value)}
             />
@@ -178,32 +179,32 @@ export default function ResumeAnalyzer() {
                 animate={{ opacity: 1, x: 0 }}
                 className="h-full"
               >
-                <Card className="p-8 bg-white/5 border-white/10 backdrop-blur-md h-full overflow-y-auto max-h-[calc(100vh-150px)] rounded-3xl">
-                  <div className="sticky top-0 bg-slate-900/90 backdrop-blur-xl pb-4 mb-6 border-b border-white/10 flex items-center justify-between z-10">
-                    <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-                      <Sparkles className="text-blue-400" size={24} />
+                <Card className="p-8 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 backdrop-blur-md h-full overflow-y-auto max-h-[calc(100vh-150px)] rounded-3xl">
+                  <div className="sticky top-0 bg-zinc-50/90 dark:bg-slate-900/90 backdrop-blur-xl pb-4 mb-6 border-b border-zinc-200 dark:border-white/10 flex items-center justify-between z-10">
+                    <h2 className="text-2xl font-black text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
+                      <Sparkles className="text-blue-500 dark:text-blue-400" size={24} />
                       Intelligence Report
                     </h2>
                     <Button 
                       variant="ghost" 
                       onClick={() => setAnalysis(null)}
-                      className="text-white/40 hover:text-white"
+                      className="text-zinc-400 hover:text-zinc-900 dark:text-white/40 dark:hover:text-white"
                     >
                       Reset
                     </Button>
                   </div>
-                  <div className="markdown-body prose prose-invert prose-blue max-w-none">
+                  <div className="markdown-body prose dark:prose-invert prose-blue max-w-none text-zinc-900 dark:text-white">
                     <Markdown>{analysis}</Markdown>
                   </div>
                 </Card>
               </motion.div>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center p-12 text-center border-2 border-dashed border-white/10 rounded-[2.5rem] bg-white/5 backdrop-blur-sm min-h-[600px]">
-                <div className="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center text-white/20 mb-6 border border-white/10">
+              <div className="h-full flex flex-col items-center justify-center p-12 text-center border-2 border-dashed border-zinc-200 dark:border-white/10 rounded-[2.5rem] bg-zinc-50 dark:bg-white/5 backdrop-blur-sm min-h-[600px]">
+                <div className="w-24 h-24 rounded-full bg-zinc-200 dark:bg-white/5 flex items-center justify-center text-zinc-400 dark:text-white/20 mb-6 border border-zinc-300 dark:border-white/10">
                   <Search size={48} />
                 </div>
-                <h3 className="text-2xl font-black text-white/60 mb-2 tracking-tight">Ready for Feedback?</h3>
-                <p className="text-white/40 text-sm max-w-xs leading-relaxed">
+                <h3 className="text-2xl font-black text-zinc-500 dark:text-white/60 mb-2 tracking-tight">Ready for Feedback?</h3>
+                <p className="text-zinc-400 dark:text-white/40 text-sm max-w-xs leading-relaxed">
                   Enter your target role and paste your resume text to get an elite recruiter-level structural teardown.
                 </p>
               </div>
