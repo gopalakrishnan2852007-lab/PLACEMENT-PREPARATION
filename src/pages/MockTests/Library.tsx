@@ -52,6 +52,28 @@ const MOCK_DATA = [
     attemptCount: 3100,
     avgScore: 82,
     icon: BrainCircuit
+  },
+  {
+    id: 'test-4',
+    title: 'TCS Aptitude Section Mock',
+    category: 'Aptitude',
+    difficulty: 'Medium',
+    questionCount: 20,
+    timeLimit: 30,
+    attemptCount: 1540,
+    avgScore: 71,
+    icon: BrainCircuit
+  },
+  {
+    id: 'test-5',
+    title: 'Logical Reasoning Advanced',
+    category: 'Reasoning',
+    difficulty: 'Hard',
+    questionCount: 25,
+    timeLimit: 40,
+    attemptCount: 920,
+    avgScore: 55,
+    icon: BrainCircuit
   }
 ];
 
