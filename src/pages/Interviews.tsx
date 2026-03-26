@@ -255,7 +255,7 @@ export default function Interviews() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">Priority</label>
-                  <select name="priority" className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                  <select name="priority" className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-orange-500">
                     {['Low', 'Medium', 'High'].map(p => <option key={p} value={p}>{p}</option>)}
                   </select>
                 </div>
@@ -263,7 +263,7 @@ export default function Interviews() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">Current Status</label>
-                  <select name="status" className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                  <select name="status" className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-orange-500">
                     {columns.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
                   </select>
                 </div>
