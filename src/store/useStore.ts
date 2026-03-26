@@ -85,6 +85,16 @@ interface AppState {
   addCompany: (company: Omit<Company, 'id' | 'appliedAt'>) => void;
   updateCompany: (id: string, updates: Partial<Company>) => void;
   
+  // Custom Mock Tests
+  customTests: {
+    id: string;
+    title: string;
+    questions: { id: number; text: string; options: string[]; type: string; answer: string }[];
+    timeLimit: number;
+    category: string;
+  }[];
+  addCustomTest: (test: any) => void;
+
   // Sync
   syncFromBackend: () => Promise<void>;
   pushToBackend: () => Promise<void>;
@@ -98,6 +108,7 @@ export const useStore = create<AppState>()(
       companies: [],
       testAttempts: [],
       placements: [],
+      customTests: [],
       xp: 0,
       streak: 0,
       readinessScore: 0,
@@ -172,6 +183,13 @@ export const useStore = create<AppState>()(
       updateCompany: (id, updates) => {
         set((state) => ({
           companies: state.companies.map(c => c.id === id ? { ...c, ...updates } : c)
+        }));
+        get().pushToBackend();
+      },
+
+      addCustomTest: (test) => {
+        set((state) => ({
+          customTests: [test, ...state.customTests]
         }));
         get().pushToBackend();
       },

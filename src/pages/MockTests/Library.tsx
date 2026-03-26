@@ -14,7 +14,10 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
-// import { useStore } from '@/src/store/useStore';
+import { useStore } from '@/src/store/useStore';
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: (import.meta as any).env.VITE_GEMINI_API_KEY || '' });
 
 const MOCK_DATA = [
   {
@@ -54,13 +57,82 @@ const MOCK_DATA = [
 
 export default function Library() {
   const navigate = useNavigate();
+  const { addCustomTest, customTests } = useStore();
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [genCategory, setGenCategory] = useState('DSA');
+  const [genQuestions, setGenQuestions] = useState('10');
+  const [genTimeLimit, setGenTimeLimit] = useState('15');
 
   const categories = ['All', 'DSA', 'Aptitude', 'Full Placement', 'Quant', 'Reasoning'];
 
-  const filteredTests = MOCK_DATA.filter(t => 
+  const handleGenerateTest = async () => {
+    setGenerating(true);
+    const prompt = `
+      Create a multiple-choice mock test for a placement interview.
+      Topic: ${genCategory}
+      Number of questions: ${genQuestions}
+      Difficulty: Medium to Hard.
+      
+      Output ONLY a valid minified JSON array of objects. Do not include markdown code blocks, backticks, or any other text.
+      Each object must exactly match this interface:
+      {
+        "id": number, // start from 1
+        "text": string, // The question text
+        "options": [string, string, string, string], // Exactly 4 options
+        "type": "MCQ",
+        "answer": string // The exact string of the correct option
+      }
+    `;
+
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt
+      });
+      
+      let rawText = response.text || "[]";
+      // cleanup markdown if the model hallucinates backticks
+      rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+      const questions = JSON.parse(rawText);
+
+      const testId = `custom-test-${Date.now()}`;
+      addCustomTest({
+        id: testId,
+        title: `AI Generated: ${genCategory} Mock`,
+        category: genCategory,
+        timeLimit: parseInt(genTimeLimit),
+        questions: questions
+      });
+
+      setIsModalOpen(false);
+      navigate(`/mock-tests/${testId}/attempt`);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to generate test. Please check API key or prompt.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const combinedTests = [
+    ...customTests.map(t => ({
+      id: t.id,
+      title: t.title,
+      category: t.category,
+      difficulty: 'Medium',
+      questionCount: t.questions.length,
+      timeLimit: t.timeLimit,
+      attemptCount: 0,
+      avgScore: 0,
+      icon: Search // fallback icon
+    })),
+    ...MOCK_DATA
+  ];
+
+  const filteredTests = combinedTests.filter(t => 
     (activeTab === 'All' || t.category === activeTab) &&
     t.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -199,14 +271,22 @@ export default function Library() {
             <div className="space-y-6 mb-8">
               <div>
                 <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2 block">Category</label>
-                <select className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500">
+                <select 
+                  value={genCategory}
+                  onChange={(e) => setGenCategory(e.target.value)}
+                  className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500"
+                >
                   {categories.slice(1).map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2 block">Questions</label>
-                  <select className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500">
+                  <select 
+                    value={genQuestions}
+                    onChange={(e) => setGenQuestions(e.target.value)}
+                    className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500"
+                  >
                     <option value="10">10 Questions</option>
                     <option value="20">20 Questions</option>
                     <option value="30">30 Questions</option>
@@ -214,7 +294,11 @@ export default function Library() {
                 </div>
                 <div>
                   <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2 block">Time Limit</label>
-                  <select className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500">
+                  <select 
+                    value={genTimeLimit}
+                    onChange={(e) => setGenTimeLimit(e.target.value)}
+                    className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500"
+                  >
                     <option value="15">15 Minutes</option>
                     <option value="30">30 Minutes</option>
                     <option value="60">60 Minutes</option>
@@ -225,9 +309,9 @@ export default function Library() {
 
             <div className="flex justify-end gap-3 pt-6 border-t border-white/5">
               <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-              <Button type="submit" className="gap-2">
-                <BrainCircuit size={18} />
-                Generate with AI
+              <Button onClick={handleGenerateTest} disabled={generating} className="gap-2">
+                <BrainCircuit size={18} className={generating ? "animate-spin" : ""} />
+                {generating ? 'Generating...' : 'Generate with AI'}
               </Button>
             </div>
           </motion.div>

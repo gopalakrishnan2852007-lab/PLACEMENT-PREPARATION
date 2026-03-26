@@ -28,10 +28,13 @@ import {
 } from 'recharts';
 import { format } from 'date-fns';
 
+import { AptitudeTest } from './AptitudeTest';
+
 export default function Aptitude() {
   const { aptitudeSessions, addAptitudeSession } = useStore();
   const [isAdding, setIsAdding] = useState(false);
   const [isTimerOpen, setIsTimerOpen] = useState(false);
+  const [isTestOpen, setIsTestOpen] = useState(false);
 
   const chartData = [...aptitudeSessions]
     .sort((a, b) => a.date - b.date)
@@ -69,14 +72,18 @@ export default function Aptitude() {
           <h2 className="text-3xl font-bold text-text-primary tracking-tight">Aptitude Tracker</h2>
           <p className="text-text-secondary mt-1">Sharpen your logical, quantitative, and verbal skills.</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={() => setIsTimerOpen(true)} className="gap-2">
+        <div className="flex flex-wrap gap-3">
+          <Button onClick={() => setIsTestOpen(true)} className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+            <Play className="h-4 w-4" />
+            Take Aptitude Test
+          </Button>
+          <Button variant="outline" onClick={() => setIsTimerOpen(true)} className="gap-2 hidden sm:flex">
             <TimerIcon className="h-4 w-4 text-primary-accent" />
             Mock Timer
           </Button>
-          <Button onClick={() => setIsAdding(true)} className="gap-2">
+          <Button onClick={() => setIsAdding(true)} variant="outline" className="gap-2 hidden sm:flex">
             <Plus className="h-4 w-4" />
-            Log Session
+            Log Custom
           </Button>
         </div>
       </header>
@@ -237,6 +244,17 @@ export default function Aptitude() {
 
       {/* Mock Timer Modal */}
       {isTimerOpen && <MockTimer onClose={() => setIsTimerOpen(false)} />}
+
+      {/* Interactive Aptitude Test Engine */}
+      {isTestOpen && (
+        <AptitudeTest 
+          onClose={() => setIsTestOpen(false)} 
+          onComplete={(session) => {
+            addAptitudeSession({ ...session, date: Date.now() });
+            setIsTestOpen(false);
+          }} 
+        />
+      )}
     </div>
   );
 }

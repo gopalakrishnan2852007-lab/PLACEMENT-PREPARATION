@@ -16,6 +16,7 @@ import Interviews from './pages/Interviews';
 import { Library, Attempt, Result } from './pages/MockTests';
 import { AskAI } from './components/shared/AskAI';
 import GoatedTools from './pages/GoatedTools';
+import Settings from './pages/Settings';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -67,6 +68,7 @@ export default function App() {
           <Route path="/mock-tests/:testId/result/:attemptId" element={<Result />} />
           <Route path="/interviews" element={<AIInterview />} />
           <Route path="/goated-tools" element={<GoatedTools />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
 
         <Route path="*" element={<Navigate to={user ? "/" : "/login"} replace />} />

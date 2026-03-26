@@ -2,7 +2,15 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
-import firebaseConfig from '../firebase-applet-config.json';
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCi5Lix6fw691yMD0nHan8M45Of1aTWKuE",
+  authDomain: "placement-prep-d0aac.firebaseapp.com",
+  projectId: "placement-prep-d0aac",
+  storageBucket: "placement-prep-d0aac.firebasestorage.app",
+  messagingSenderId: "1059727678529",
+  appId: "1:1059727678529:web:852a9e3e04210e5f9bbac0"
+};
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

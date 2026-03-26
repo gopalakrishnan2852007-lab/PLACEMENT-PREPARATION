@@ -4,8 +4,9 @@ import { Button } from '@/src/components/ui/Base';
 import { Clock, ChevronLeft, ChevronRight, Bookmark, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { motion } from 'motion/react';
+import { useStore } from '@/src/store/useStore';
 
-const MOCK_QUESTIONS = [
+const DEFAULT_MOCK_QUESTIONS = [
   { id: 1, text: "What is the time complexity of QuickSort in the worst case?", options: ["O(n log n)", "O(n^2)", "O(n)", "O(1)"], type: "MCQ" },
   { id: 2, text: "Which data structure is best for implementing a priority queue?", options: ["Array", "Linked List", "Heap", "Stack"], type: "MCQ" },
   { id: 3, text: "In a relational database, what does ACID stand for?", options: ["Atomicity, Consistency, Isolation, Durability", "Atomicity, Concurrency, Isolation, Database", "Automatic, Consistent, Isolated, Durable", "Anything Consistent Is Durable"], type: "MCQ" },
@@ -16,8 +17,13 @@ const MOCK_QUESTIONS = [
 export default function Attempt() {
   const { testId } = useParams();
   const navigate = useNavigate();
+  const { customTests } = useStore();
+  
+  const customTest = customTests.find(t => t.id === testId);
+  const MOCK_QUESTIONS = customTest ? customTest.questions : DEFAULT_MOCK_QUESTIONS;
+  
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes by default
+  const [timeLeft, setTimeLeft] = useState(customTest ? customTest.timeLimit * 60 : 15 * 60);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [reviewMarked, setReviewMarked] = useState<Set<number>>(new Set());
 
@@ -77,7 +83,7 @@ export default function Attempt() {
       {/* Top Bar */}
       <header className="h-16 border-b border-white/5 bg-zinc-900/50 px-6 flex items-center justify-between">
         <div>
-          <h2 className="text-white font-bold tracking-tight">TCS NQT Full Length Mock</h2>
+          <h2 className="text-white font-bold tracking-tight">{customTest ? customTest.title : "TCS NQT Full Length Mock"}</h2>
           <p className="text-[10px] text-zinc-500 uppercase font-black tracking-widest mt-0.5">Attempting ID: {testId}</p>
         </div>
 
