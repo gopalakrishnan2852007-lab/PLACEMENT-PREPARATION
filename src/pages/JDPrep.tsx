@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { GoogleGenAI } from "@google/genai";
 import { Card, Button } from '@/src/components/ui/Base';
 import { 
@@ -15,12 +16,22 @@ import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
 import { cn } from '@/src/lib/utils';
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
+const ai = new GoogleGenAI({ apiKey: (import.meta as any).env.VITE_GEMINI_API_KEY || '' });
 
 export default function JDPrep() {
+  const location = useLocation();
   const [jd, setJd] = useState('');
   const [loading, setLoading] = useState(false);
   const [guide, setGuide] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (location.state?.role && location.state?.company) {
+      const autoJd = `I am applying for the role of ${location.state.role} at ${location.state.company}. Please provide a comprehensive preparation guide assuming standard industry requirements for this role.`;
+      setJd(autoJd);
+      // We don't auto-run immediately because the state setter is async, 
+      // but the user can click Generate, or we can use a ref/effect to run it.
+    }
+  }, [location.state]);
 
   const generatePrepGuide = async () => {
     if (!jd.trim()) return;
