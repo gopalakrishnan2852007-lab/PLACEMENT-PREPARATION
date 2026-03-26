@@ -24,17 +24,9 @@ export default function JDPrep() {
   const [loading, setLoading] = useState(false);
   const [guide, setGuide] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (location.state?.role && location.state?.company) {
-      const autoJd = `I am applying for the role of ${location.state.role} at ${location.state.company}. Please provide a comprehensive preparation guide assuming standard industry requirements for this role.`;
-      setJd(autoJd);
-      // We don't auto-run immediately because the state setter is async, 
-      // but the user can click Generate, or we can use a ref/effect to run it.
-    }
-  }, [location.state]);
-
-  const generatePrepGuide = async () => {
-    if (!jd.trim()) return;
+  const generatePrepGuide = async (customJd?: string) => {
+    const textToProcess = customJd || jd;
+    if (!textToProcess.trim()) return;
     setLoading(true);
 
     const prompt = `
@@ -47,7 +39,7 @@ export default function JDPrep() {
       5. **Company Culture Fit**: What values should I demonstrate?
 
       Job Description:
-      ${jd}
+      ${textToProcess}
     `;
 
     try {
@@ -65,6 +57,19 @@ export default function JDPrep() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (location.state?.role && location.state?.company) {
+      const autoJd = `I am applying for the role of ${location.state.role} at ${location.state.company}. Please provide a comprehensive preparation guide assuming standard industry requirements for this role.`;
+      setJd(autoJd);
+      
+      // Clear the state so it doesn't re-run endlessly if the user navigates around
+      window.history.replaceState({}, document.title);
+      
+      // Auto-trigger generation
+      generatePrepGuide(autoJd);
+    }
+  }, [location.state]);
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4">
