@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-sidebar: #2D3A8C;
+  --color-sidebar-active: #3D4EAA;
+  --color-primary-accent: #4F63D2;
+  --color-page-bg: #F0F2FF;
+  --color-text-primary: #1A1D2E;
+  --color-text-secondary: #7C83A0;
+  --color-success-green: #22C55E;
+  --color-warning-orange: #F97316;
+}
+
+@layer base {
+  body {
+    @apply bg-page-bg text-text-primary font-sans antialiased;
+  }
+}
+
+@layer components {
+  .card-shadow {
+    box-shadow: 0 2px 12px rgba(79, 99, 210, 0.08);
+  }
+  
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
+  }
+
+  /* Google Button */
+  .google-btn {
+    @apply flex items-center justify-center gap-3 bg-white text-zinc-900 font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-zinc-100 hover:scale-[1.02] active:scale-[0.98] shadow-lg;
+  }
+}

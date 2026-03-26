@@ -1,0 +1,5 @@
+{
+  "name": "JOBSEEKER",
+  "description": "An AI-powered placement preparation platform with DSA tracking, AI mock interviews, resume analysis, and secure GlassAuth authentication.",
+  "requestFramePermissions": ["microphone", "camera"]
+}
