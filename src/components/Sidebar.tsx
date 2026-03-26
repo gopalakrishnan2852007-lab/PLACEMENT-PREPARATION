@@ -10,7 +10,9 @@ import {
   Bot,
   ClipboardList,
   GraduationCap,
-  Sparkles
+  Sparkles,
+  FileText,
+  Target
 } from "lucide-react";
 import { auth, signOut } from "../firebase";
 import { Logo } from "./Logo";
@@ -22,6 +24,8 @@ const navItems = [
   { icon: Briefcase, label: "Companies", path: "/companies" },
   { icon: ClipboardList, label: "Mock Tests", path: "/mock-tests" },
   { icon: Bot, label: "Interviews", path: "/interviews" },
+  { icon: FileText, label: "Resume AI", path: "/resume-analyzer" },
+  { icon: Target, label: "JD Analyzer", path: "/jd-prep" },
   { icon: GraduationCap, label: "Placements", path: "/placements" },
   { icon: Sparkles, label: "GOATED Tools", path: "/goated-tools" },
   { icon: Settings, label: "Settings", path: "/settings" },
