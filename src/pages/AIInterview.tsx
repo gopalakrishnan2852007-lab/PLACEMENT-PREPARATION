@@ -49,7 +49,7 @@ export default function AIInterview() {
     
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           systemInstruction: `Act as an AI-Driven Interview Platform (like HireVue). The candidate is applying for the role mentioned in the prompt.
@@ -86,7 +86,7 @@ Rules:
       }));
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: [...history, { role: 'user', parts: [{ text: input }] }],
         config: {
           systemInstruction: `Act as an AI-Driven Interview Platform (like HireVue).

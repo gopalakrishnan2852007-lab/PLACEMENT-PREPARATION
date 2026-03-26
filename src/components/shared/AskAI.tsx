@@ -50,7 +50,7 @@ export function AskAI() {
       const history = messages.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
       
       const chat = ai.chats.create({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         config: {
           systemInstruction: SYSTEM_PROMPT
         }
@@ -59,7 +59,7 @@ export function AskAI() {
       // Restore history manually if SDK requires it, or just send the latest prompt
       // For simplicity here, we send the whole prompt context if needed, but chat handles it.
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: [
             ...messages.map(m => ({ role: m.role, parts: [{text: m.text}] })),
             { role: 'user', parts: [{ text: userMsg }]}

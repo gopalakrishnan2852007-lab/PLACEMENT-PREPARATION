@@ -41,7 +41,7 @@ export default function JDPrep() {
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           systemInstruction: "You are an elite career coach and technical recruiter. Your goal is to provide a highly actionable, structured, and motivational preparation guide based on a job description. Use professional formatting with clear headings and bullet points."

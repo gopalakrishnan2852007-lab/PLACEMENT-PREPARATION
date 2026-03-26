@@ -48,7 +48,7 @@ Instructions:
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: prompt,
       });
       setResult(response.text || "Generation failed.");
@@ -77,7 +77,7 @@ Write the email now.`;
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: prompt,
       });
       setResult(response.text || "Generation failed.");
@@ -109,7 +109,7 @@ Task: Generate the core App entry file and the primary functional component with
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: prompt,
       });
       setResult(response.text || "Generation failed.");

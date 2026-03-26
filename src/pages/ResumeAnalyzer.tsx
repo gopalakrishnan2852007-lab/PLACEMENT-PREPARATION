@@ -45,7 +45,7 @@ export default function ResumeAnalyzer() {
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           systemInstruction: "You are an expert HR and ATS optimization specialist. Provide a detailed, professional analysis of the resume against the job description. Use clear headings and bullet points."
