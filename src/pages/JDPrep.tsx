@@ -96,7 +96,7 @@ export default function JDPrep() {
               onChange={(e) => setJd(e.target.value)}
             />
             <Button 
-              onClick={generatePrepGuide}
+              onClick={() => generatePrepGuide()}
               disabled={!jd.trim() || loading}
               className="w-full mt-6 h-14 bg-blue-600 hover:bg-blue-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-blue-600/20"
             >
