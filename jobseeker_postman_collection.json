@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "Jobseeker Placement Prep Tracker APIs",
+    "description": "Comprehensive QA Testing Collection for Jobseeker Full-Stack APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "QA Scenarios - Validations & Logging",
+      "item": [
+        {
+          "name": "Add Company (Success Flow)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{FIREBASE_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Google\",\n  \"role\": \"Software Engineer\",\n  \"ctc\": \"24 LPA\",\n  \"priority\": \"High\",\n  \"status\": \"Applied\",\n  \"nextAction\": \"Prepare for OA\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5001/jobseeker/us-central1/api/companies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["jobseeker", "us-central1", "api", "companies"]
+            },
+            "description": "**Expected Status:** 201 Created\n**Test Case:** Valid Network request testing the happy-path flow for an authenticated user."
+          }
+        },
+        {
+          "name": "Add Company (Empty Input Error)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{FIREBASE_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5001/jobseeker/us-central1/api/companies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["jobseeker", "us-central1", "api", "companies"]
+            },
+            "description": "**Expected Status:** 400 Bad Request\n**Assertion:** Expect structured `{ \"success\": false, \"message\": \"Name and Role are required.\" }`"
+          }
+        },
+        {
+          "name": "Fetch Companies (Unauthorized Error)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5001/jobseeker/us-central1/api/companies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["jobseeker", "us-central1", "api", "companies"]
+            },
+            "description": "**Expected Status:** 401 Unauthorized\n**Assertion:** Expect structured `{ \"success\": false, \"message\": \"Missing or invalid token\" }`"
+          }
+        }
+      ]
+    }
+  ]
+}

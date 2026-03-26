@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 // Your web app's Firebase configuration
@@ -19,6 +19,7 @@ export const functions = getFunctions(app);
 export const googleProvider = new GoogleAuthProvider();
 
 export const updateStreakOnLoginFn = httpsCallable(functions, 'updateStreakOnLogin');
+export const analyzeJDFn = httpsCallable(functions, 'analyzeJD');
 
 // Helper to sync user to Firestore on login
 export const syncUserToFirestore = async (user: User) => {
@@ -32,5 +33,5 @@ export const syncUserToFirestore = async (user: User) => {
   }, { merge: true });
 };
 
-export { signInWithPopup, onAuthStateChanged, signOut };
+export { signInWithPopup, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword };
 export type { User };

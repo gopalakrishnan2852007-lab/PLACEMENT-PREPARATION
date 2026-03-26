@@ -7,7 +7,6 @@ import DSA from './pages/DSA';
 import AIInterview from './pages/AIInterview';
 import Aptitude from './pages/Aptitude';
 import ResumeAnalyzer from './pages/ResumeAnalyzer';
-import JDPrep from './pages/JDPrep';
 import Flashcards from './pages/Flashcards';
 import Analytics from './pages/Analytics';
 import Placements from './pages/Placements';
@@ -18,6 +17,8 @@ import { Library, Attempt, Result } from './pages/MockTests';
 import { AskAI } from './components/shared/AskAI';
 import GoatedTools from './pages/GoatedTools';
 import Settings from './pages/Settings';
+import PromptToolkit from './pages/PromptToolkit';
+import JDAnalyzer from './pages/JDAnalyzer';
 
 export default function App() {
   const { theme, syncFromBackend } = useStore();
@@ -70,7 +71,7 @@ export default function App() {
           <Route path="/ai-interview" element={<AIInterview />} />
           <Route path="/aptitude" element={<Aptitude />} />
           <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
-          <Route path="/jd-prep" element={<JDPrep />} />
+          <Route path="/jd-prep" element={<JDAnalyzer />} />
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/companies" element={<Interviews />} />

@@ -35,14 +35,31 @@ export default function Interviews() {
   const navigate = useNavigate();
   const [isAdding, setIsAdding] = useState(false);
   const [activeTab, setActiveTab] = useState<'Pipeline' | 'HR Bank' | 'History'>('Pipeline');
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const newErrors: Record<string, string> = {};
+
+    const name = formData.get('name') as string;
+    const role = formData.get('role') as string;
+    const ctc = formData.get('ctc') as string;
+
+    if (!name.trim()) newErrors.name = "Company Name is required";
+    if (!role.trim()) newErrors.role = "Role is required";
+    if (!ctc.trim()) newErrors.ctc = "CTC is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
+
     addCompany({
-      name: formData.get('name') as string,
-      role: formData.get('role') as string,
-      ctc: formData.get('ctc') as string,
+      name,
+      role,
+      ctc,
       status: formData.get('status') as any,
       priority: formData.get('priority') as any,
       nextAction: formData.get('nextAction') as string,
@@ -237,21 +254,24 @@ export default function Interviews() {
             className="w-full max-w-lg bg-white dark:bg-[#18181b] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-2xl"
           >
             <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">Add New Application</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">Company Name</label>
-                  <Input name="name" placeholder="e.g., Google" required />
+                  <Input name="name" placeholder="e.g., Google" className={errors.name ? "border-red-500 ring-1 ring-red-500" : ""} />
+                  {errors.name && <p className="text-[10px] text-red-500 font-bold">{errors.name}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">Role</label>
-                  <Input name="role" placeholder="e.g., Software Engineer" required />
+                  <Input name="role" placeholder="e.g., Software Engineer" className={errors.role ? "border-red-500 ring-1 ring-red-500" : ""} />
+                  {errors.role && <p className="text-[10px] text-red-500 font-bold">{errors.role}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">CTC Offered</label>
-                  <Input name="ctc" placeholder="e.g., 24 LPA" required />
+                  <Input name="ctc" placeholder="e.g., 24 LPA" className={errors.ctc ? "border-red-500 ring-1 ring-red-500" : ""} />
+                  {errors.ctc && <p className="text-[10px] text-red-500 font-bold">{errors.ctc}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-zinc-500">Priority</label>

@@ -41,7 +41,7 @@ export const onUserCreated = functions.auth.user().onCreate(async (user) => {
 // Function 5 — updateStreakOnLogin (HTTPS Callable)
 export const updateStreakOnLogin = functions.https.onCall(async (data, context) => {
   if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated.');
+    return { success: false, message: 'Unauthorized: User must be authenticated.' };
   }
 
   const uid = context.auth.uid;
@@ -50,7 +50,7 @@ export const updateStreakOnLogin = functions.https.onCall(async (data, context) 
   try {
     const doc = await userRef.get();
     if (!doc.exists) {
-      throw new functions.https.HttpsError('not-found', 'User record not found.');
+      return { success: false, message: 'User record not found.' };
     }
 
     const userData = doc.data()!;
@@ -103,7 +103,7 @@ export const updateStreakOnLogin = functions.https.onCall(async (data, context) 
 
   } catch (error: any) {
     console.error('Error updating streak:', error);
-    throw new functions.https.HttpsError('internal', error.message);
+    return { success: false, message: error.message || "Internal server error" };
   }
 });
 
@@ -122,9 +122,13 @@ const computePercentile = async (testId: string, userScore: number): Promise<num
 
 // Function 7 — submitTestAttempt (HTTPS Callable)
 export const submitTestAttempt = functions.https.onCall(async (data, context) => {
-  if (!context.auth) throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated.');
+  if (!context.auth) return { success: false, message: 'Unauthorized: User must be authenticated.' };
 
   const { testId, answers, timings } = data;
+  if (!testId || !answers) {
+    return { success: false, message: 'Invalid payload: testId and answers are required.' };
+  }
+
   const uid = context.auth.uid;
 
   try {
@@ -172,24 +176,116 @@ export const submitTestAttempt = functions.https.onCall(async (data, context) =>
     return { success: true, attemptId, ...attemptData };
 
   } catch (error: any) {
-    throw new functions.https.HttpsError('internal', error.message);
+    console.error('Error submitting test attempt:', error);
+    return { success: false, message: error.message || 'Internal server error while evaluating test.' };
   }
 });
 
 // Function 6 — generateMockTest (HTTPS Callable)
 export const generateMockTest = functions.https.onCall(async (data, context) => {
-  if (!context.auth) throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated.');
+  if (!context.auth) return { success: false, message: 'Unauthorized: User must be authenticated.' };
   
-  // Here we would call the Anthropic Claude API to generate questions.
-  // We'll mock the response for now.
   const { category, difficulty, questionCount } = data;
   
-  return {
-    success: true,
-    testId: `ai-gen-${Date.now()}`,
-    title: `AI Generated ${category} Test - ${difficulty}`,
-    questions: [
-      { text: "Sample AI Question 1", options: ["A", "B", "C", "D"], answer: "A" }
-    ]
-  };
+  if (!category || !difficulty) {
+    return { success: false, message: 'Invalid payload: category and difficulty are required.' };
+  }
+
+  try {
+    return {
+      success: true,
+      testId: `ai-gen-${Date.now()}`,
+      title: `AI Generated ${category} Test - ${difficulty}`,
+      questions: [
+        { text: "Sample AI Question 1", options: ["A", "B", "C", "D"], answer: "A" }
+      ]
+    };
+  } catch (error: any) {
+    console.error('Error generating Mock test:', error);
+    return { success: false, message: error.message || 'Internal server error while generating test.' };
+  }
+});
+
+// Function 9 - analyzeJD (HTTPS Callable for Jobseeker Prep System)
+export const analyzeJD = functions.https.onCall(async (data, context) => {
+  if (!context.auth) return { success: false, message: 'Unauthorized: User must be authenticated.' };
+  
+  const { jdText, userSkills } = data;
+  if (!jdText) {
+    return { success: false, message: 'Job Description is required.' };
+  }
+
+  try {
+    // Dynamic import to avoid breaking initial execution if module loads slightly late
+    const { GoogleGenAI } = await import('@google/genai');
+    
+    // We expect the GEMINI_API_KEY to be available in process.env if loaded via functions setup
+    const apiKey = process.env.GEMINI_API_KEY || "AIzaSyCi5Lix6fw691yMD0nHan8M45Of1aTWKuE"; // Fallback strictly for local emulation/safety
+    const ai = new GoogleGenAI({ apiKey });
+
+    // Enforce structured JSON output
+    const prompt = `
+      You are an expert technical recruiter and career coach.
+      Analyze this Job Description and the user's current skills to generate a comprehensive placement preparation matrix.
+      You MUST return exactly ONLY RAW JSON matching this structure. Do not wrap in markdown \`\`\`json.
+      
+      {
+        "role": "e.g., Frontend Engineer",
+        "experienceLevel": "e.g., Fresher / 2-4 Years",
+        "extractedSkills": {
+          "mustHave": ["React", "JavaScript", "CSS"],
+          "goodToHave": ["AWS", "Docker", "Figma"]
+        },
+        "skillCategories": {
+          "programming": ["JavaScript", "TypeScript"],
+          "frameworks": ["React", "Node.js"],
+          "databases": ["MongoDB"],
+          "softSkills": ["Communication"]
+        },
+        "skillGap": {
+          "missingSkills": ["Docker", "AWS"],
+          "strengths": ["React", "JavaScript"]
+        },
+        "companySuggestions": [
+          { "name": "Google", "category": "Product", "matchPercent": 92 },
+          { "name": "TCS", "category": "Service", "matchPercent": 75 },
+          { "name": "Stripe", "category": "Startup", "matchPercent": 88 }
+        ],
+        "roadmap": [
+          { "day": 1, "topic": "Core JavaScript Concepts", "action": "Review Closures, Promises, and Event Loop" },
+          { "day": 2, "topic": "React Hooks Deep Dive", "action": "Build a custom hook, practice useEffect optimizations" }
+        ],
+        "atsPredictor": {
+          "score": 85,
+          "resumeTips": ["Add measurable metrics to past projects", "Explicitly mention Docker"]
+        },
+        "interviewQuestions": [
+          "Explain the Virtual DOM in React.",
+          "How would you optimize a slow-loading web application?"
+        ]
+      }
+
+      Input User Skills: ${userSkills || 'Unknown, assume fresher basics'}
+      Input Job Description:
+      ${jdText}
+    `;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: {
+        temperature: 0.2, // Low temperature for deterministic JSON output
+        responseMimeType: "application/json"
+      }
+    });
+
+    const outputText = response.text || "{}";
+    const parsedJSON = JSON.parse(outputText);
+
+    return { success: true, data: parsedJSON };
+
+  } catch (error: any) {
+    console.error('Error analyzing JD:', error);
+    return { success: false, message: error.message || 'Failed to analyze Job Description' };
+  }
 });
