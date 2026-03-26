@@ -74,8 +74,10 @@ interface AppState {
   readinessScore: number;
   level: number;
   lastSolvedDate?: number;
+  theme: 'light' | 'dark';
 
   // Actions
+  setTheme: (theme: 'light' | 'dark') => void;
   addProblem: (problem: Omit<Problem, 'id' | 'createdAt'>) => void;
   updateProblem: (id: string, updates: Partial<Problem>) => void;
   deleteProblem: (id: string) => void;
@@ -109,6 +111,7 @@ export const useStore = create<AppState>()(
       testAttempts: [],
       placements: [],
       customTests: [],
+      theme: 'light',
       xp: 0,
       streak: 0,
       readinessScore: 0,
@@ -140,6 +143,15 @@ export const useStore = create<AppState>()(
           }
         }
         get().pushToBackend();
+      },
+
+      setTheme: (theme) => {
+        set({ theme });
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
       },
 
       updateProblem: (id, updates) => {
