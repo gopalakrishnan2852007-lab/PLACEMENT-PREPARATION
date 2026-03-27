@@ -9,6 +9,10 @@ import {
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { useStore } from '@/src/store/useStore';
+import { GoogleGenAI } from "@google/genai";
+
+// Suppress error using any if Vite env is strictly typed but env typing is missing
+const ai = new GoogleGenAI({ apiKey: (import.meta as any).env.VITE_GEMINI_API_KEY || '' });
 
 interface AnalysisResult {
   role: string;
@@ -61,17 +65,67 @@ export default function JDAnalyzer() {
     setError(null);
 
     try {
-      const response = await analyzeJDFn({ jdText, userSkills });
-      const data = response.data as { success: boolean, data: AnalysisResult, message?: string };
+      const prompt = `
+      You are an expert technical recruiter and career coach.
+      Analyze this Job Description and the user's current skills to generate a comprehensive placement preparation matrix.
+      You MUST return exactly ONLY RAW JSON matching this structure. Do not wrap in markdown \`\`\`json.
       
-      if (data.success && data.data) {
-        setResult(data.data);
-      } else {
-        setError(data.message || "Failed to analyze Job Description.");
+      {
+        "role": "e.g., Frontend Engineer",
+        "experienceLevel": "e.g., Fresher / 2-4 Years",
+        "extractedSkills": {
+          "mustHave": ["React", "JavaScript", "CSS"],
+          "goodToHave": ["AWS", "Docker", "Figma"]
+        },
+        "skillCategories": {
+          "programming": ["JavaScript", "TypeScript"],
+          "frameworks": ["React", "Node.js"],
+          "databases": ["MongoDB"],
+          "softSkills": ["Communication"]
+        },
+        "skillGap": {
+          "missingSkills": ["Docker", "AWS"],
+          "strengths": ["React", "JavaScript"]
+        },
+        "companySuggestions": [
+          { "name": "Google", "category": "Product", "matchPercent": 92 },
+          { "name": "TCS", "category": "Service", "matchPercent": 75 },
+          { "name": "Stripe", "category": "Startup", "matchPercent": 88 }
+        ],
+        "roadmap": [
+          { "day": 1, "topic": "Core JavaScript Concepts", "action": "Review Closures, Promises, and Event Loop" },
+          { "day": 2, "topic": "React Hooks Deep Dive", "action": "Build a custom hook, practice useEffect optimizations" }
+        ],
+        "atsPredictor": {
+          "score": 85,
+          "resumeTips": ["Add measurable metrics to past projects", "Explicitly mention Docker"]
+        },
+        "interviewQuestions": [
+          "Explain the Virtual DOM in React.",
+          "How would you optimize a slow-loading web application?"
+        ]
       }
+
+      Input User Skills: ${userSkills || 'Unknown, assume fresher basics'}
+      Input Job Description:
+      ${jdText}
+    `;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+        config: {
+          temperature: 0.2,
+          responseMimeType: "application/json"
+        }
+      });
+      
+      const parsedJSON = JSON.parse(response.text || "{}");
+      setResult(parsedJSON);
+
     } catch (err: any) {
       console.error(err);
-      setError("Server Error: Ensure Firebase Emulator is running or check your connection.");
+      setError("AI Generation Failed: Please verify your Gemini API key.");
     } finally {
       setLoading(false);
     }

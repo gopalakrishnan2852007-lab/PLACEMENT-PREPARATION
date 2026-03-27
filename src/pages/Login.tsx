@@ -110,7 +110,7 @@ export default function Login() {
           </div>
         </div>
 
-        <h1 className="text-3xl font-black text-white mb-2 tracking-tight">JOBSEEKER</h1>
+        <h1 className="text-3xl font-black text-white mb-2 tracking-tight">PREPTRACKER</h1>
         <p className="text-zinc-400 text-sm mb-8">The ultimate AI placement platform.</p>
 
         {errors.api && (

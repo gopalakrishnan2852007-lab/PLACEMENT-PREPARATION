@@ -50,7 +50,7 @@ export function Sidebar() {
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white border border-white/20">
           <Logo size={24} />
         </div>
-        <h1 className="text-lg font-bold text-white tracking-tight">JOBSEEKER</h1>
+        <h1 className="text-lg font-bold text-white tracking-tight">PREPTRACKER</h1>
       </div>
 
       {/* Navigation */}
