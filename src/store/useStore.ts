@@ -100,6 +100,7 @@ interface AppState {
   // Sync
   syncFromBackend: () => Promise<void>;
   pushToBackend: () => Promise<void>;
+  clearState: () => void;
 }
 
 export const useStore = create<AppState>()(
@@ -116,6 +117,22 @@ export const useStore = create<AppState>()(
       streak: 0,
       readinessScore: 0,
       level: 1,
+
+      clearState: () => {
+        set({
+          problems: [],
+          aptitudeSessions: [],
+          companies: [],
+          testAttempts: [],
+          placements: [],
+          customTests: [],
+          xp: 0,
+          streak: 0,
+          readinessScore: 0,
+          level: 1,
+          lastSolvedDate: undefined,
+        });
+      },
 
       addProblem: (problem) => {
         const newProblem: Problem = {
@@ -230,6 +247,9 @@ export const useStore = create<AppState>()(
                 level: data.level || 1,
                 lastSolvedDate: data.lastSolvedDate
               }));
+            } else {
+              // Brand new user, wipe existing inherited local state
+              get().clearState();
             }
           }
         } catch (err) {

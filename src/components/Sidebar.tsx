@@ -31,12 +31,15 @@ const navItems = [
   { icon: Settings, label: "Settings", path: "/settings" },
 ];
 
+import { useStore } from "../store/useStore";
+
 export function Sidebar() {
   const location = useLocation();
   const user = auth.currentUser;
 
   const handleLogout = async () => {
     try {
+      useStore.getState().clearState();
       await signOut(auth);
     } catch (err) {
       console.error(err);
